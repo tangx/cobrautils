@@ -3,7 +3,6 @@ package cobrax
 import (
 	"fmt"
 	"reflect"
-	"strconv"
 	"strings"
 
 	"github.com/spf13/cobra"
@@ -55,62 +54,31 @@ func BindFlags(cmd *cobra.Command, opts interface{}) {
 
 		// 4.1. 是否为 Persistent flags
 		if val, ok := typField.Tag.Lookup("persistent"); ok && val == "true" {
-			fmt.Println("val=", val)
+			// fmt.Println("val=", val)
 			flags = cmd.PersistentFlags()
 		}
 
 		// 6. get default value
-		value := typField.Tag.Get("value")
+		// value := typField.Tag.Get("value")
 
-		// 5. 判断 kind 类型
-		switch typ.Field(i).Type.Kind() {
-		case reflect.String:
+		// 5. 类型断言
+		switch v := valueField.Interface().(type) {
+		case string:
 			// 1.1 done : Addr() 获取值的内存地址， Interface() 并以 interface 类型返回， (*string) 并进行 类型指针类型 断言
 			valuePtr := valueField.Addr().Interface().(*string)
 			// 1.2 done : 将 reflect.Type 值转换为对应的值
 			// value := valueField.String()
 			// 1.3 done: 设置 flag
-			flags.StringVarP(valuePtr, name, shorthand, value, usage)
+			flags.StringVarP(valuePtr, name, shorthand, v, usage)
 
-		case reflect.Int64:
-			flags.Int64VarP(valueField.Addr().Interface().(*int64), name, shorthand, mustConvInt64(value), usage)
+		case int64:
+			flags.Int64VarP(valueField.Addr().Interface().(*int64), name, shorthand, v, usage)
 
-		case reflect.Bool:
-			flags.BoolVarP(valueField.Addr().Interface().(*bool), name, shorthand, mustConvBool(value), usage)
+		case bool:
+			flags.BoolVarP(valueField.Addr().Interface().(*bool), name, shorthand, v, usage)
 
-		case reflect.Slice:
-			flags.StringSliceVarP(valueField.Addr().Interface().(*[]string), name, shorthand, mustConvStringSlice(value), "")
+		case []string:
+			flags.StringSliceVarP(valueField.Addr().Interface().(*[]string), name, shorthand, v, "")
 		}
 	}
-
-}
-
-func mustConvInt64(str string) int64 {
-	if len(str) == 0 {
-		return 0
-	}
-
-	i, err := strconv.ParseInt(str, 10, 64)
-	if err != nil {
-		panic(err)
-	}
-	return i
-}
-
-func mustConvBool(str string) bool {
-	if len(str) == 0 {
-		return false
-	}
-	ok, err := strconv.ParseBool(str)
-	if err != nil {
-		panic(err)
-	}
-	return ok
-}
-
-func mustConvStringSlice(str string) []string {
-	if len(str) == 0 {
-		return []string{}
-	}
-	return strings.Split(str, ",")
 }
