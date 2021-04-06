@@ -7,7 +7,7 @@ type student struct {
 	Name   string `name:"name" value:"zhangsan" usage:"student name" persistent:"true"`
 	Age    int64  `name:"age" value:"20" usage:"student age" shorthand:"a"`
 	Gender bool   `value:"true"`
-    Address []string `value:"addr1,addr2,addr3"`
+	Address []string `value:"addr1,addr2,addr3"`
 }
 
 var stu = student{}
