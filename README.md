@@ -4,13 +4,19 @@
 
 ```go
 type student struct {
-	Name   string `name:"name" value:"zhangsan" usage:"student name" persistent:"true"`
-	Age    int64  `name:"age" value:"20" usage:"student age" shorthand:"a"`
-	Gender bool   `value:"true"`
-	Address []string `value:"addr1,addr2,addr3"`
+	Name    string `name:"name" usage:"student name" persistent:"true"`
+	Age     int64  `name:"age" usage:"student age" shorthand:"a"`
+	Gender  bool
+	Address []string `name:"addr"`
 }
 
-var stu = student{}
+// define opts with default values
+var stu = student{
+	Name:    "zhangsanfeng",
+	Age:     20,
+	Address: []string{"addr1", "addr2"},
+}
+
 var cmd = *cobra.Command{}
 
 func init(){

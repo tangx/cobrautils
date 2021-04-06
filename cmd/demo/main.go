@@ -8,9 +8,10 @@ import (
 )
 
 type student struct {
-	Name   string `name:"name" value:"zhangsan" usage:"student name" persistent:"true"`
-	Age    int64  `name:"age" value:"20" usage:"student age" shorthand:"a"`
-	Gender bool   `value:"true"`
+	Name    string `name:"name" usage:"student name" persistent:"true"`
+	Age     int64  `name:"age" usage:"student age" shorthand:"a"`
+	Gender  bool
+	Address []string `name:"addr"`
 }
 
 var rootCmd = &cobra.Command{
@@ -22,8 +23,10 @@ var rootCmd = &cobra.Command{
 }
 
 var stu = student{
-	Name: "zhangsanfeng",
-	Age:  20100,
+	Name:    "zhangsanfeng",
+	Age:     20100,
+	Gender:  false,
+	Address: []string{"addr1", "addr2"},
 }
 
 func main() {
