@@ -4,7 +4,7 @@ import (
 	"fmt"
 
 	"github.com/spf13/cobra"
-	"github.com/tangx/cobrax"
+	"github.com/tangx/cobrautils"
 )
 
 type student struct {
@@ -39,7 +39,7 @@ var stu = student{
 
 func main() {
 
-	cobrax.BindFlags(rootCmd, &stu)
+	cobrautils.BindFlags(rootCmd, &stu)
 
 	_ = rootCmd.Execute()
 

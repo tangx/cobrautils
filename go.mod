@@ -1,4 +1,4 @@
-module github.com/tangx/cobrax
+module github.com/tangx/cobrautils
 
 go 1.16
 

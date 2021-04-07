@@ -1,4 +1,4 @@
-package cobrax
+package cobrautils
 
 import (
 	"fmt"
