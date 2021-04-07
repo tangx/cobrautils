@@ -8,15 +8,15 @@ import (
 )
 
 type student struct {
-	Name    string `name:"name" usage:"student name" persistent:"true"`
-	Age     int64  `name:"age" usage:"student age" shorthand:"a"`
+	Name    string `flag:"name" usage:"student name" persistent:"true"`
+	Age     int64  `flag:"age" usage:"student age" shorthand:"a"`
 	Gender  bool
-	Address address `name:"addr"`
+	Address address `flag:"addr"`
 }
 
 type address struct {
-	Home   string `name:"home"`
-	School string `name:"-"`
+	Home   string `flag:"home"`
+	School string `flag:"-"`
 }
 
 var rootCmd = &cobra.Command{

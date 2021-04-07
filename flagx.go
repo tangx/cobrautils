@@ -39,7 +39,7 @@ func BindFlags(cmd *cobra.Command, opts interface{}, basename ...string) {
 
 		// 2. 获取 name, shorthand。
 		// 2.1. 获取字段名
-		name := typField.Tag.Get("name")
+		name := typField.Tag.Get("flag")
 
 		// 2.1.0 如果 `name:"-"`
 		if name == "-" {
