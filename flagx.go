@@ -8,7 +8,7 @@ import (
 	"github.com/spf13/cobra"
 )
 
-func BindFlags(cmd *cobra.Command, opts interface{}) {
+func BindFlags(cmd *cobra.Command, opts interface{}, basename ...string) {
 
 	rvPtr := reflect.ValueOf(opts)
 
@@ -38,12 +38,33 @@ func BindFlags(cmd *cobra.Command, opts interface{}) {
 		valueField := rv.Field(i)
 
 		// 2. 获取 name, shorthand。
-		// 2.1. 如果 name 不存在， 则为字段本身名称
+		// 2.1. 获取字段名
 		name := typField.Tag.Get("name")
-		if len(name) == 0 {
-			name = strings.ToLower(typField.Name)
+
+		// 2.1.0 如果 `name:"-"`
+		if name == "-" {
+			continue
 		}
-		// 2.2. 获取
+
+		// 2.1.1. 嵌套结构体, 继续循环
+		if typField.Type.Kind() == reflect.Struct {
+			if len(name) == 0 {
+				name = strings.ToLower(typField.Name)
+			}
+			parts := append(basename, name)
+			BindFlags(cmd, valueField.Addr().Interface(), parts...)
+		}
+
+		// 2.1.2 未设置 name 标签 或 name 为空 则跳过。
+		if len(name) == 0 {
+			continue
+		}
+
+		// 2.1.3 组合 flags 名字， 嵌套结构体以 . 合并
+		parts := append(basename, name)
+		name = strings.Join(parts, ".")
+
+		// 2.3. 获取
 		shorthand := typField.Tag.Get("shorthand")
 
 		// 3. 获取 usage

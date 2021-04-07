@@ -2,27 +2,7 @@
 
 ## Usage
 
-```go
-type student struct {
-	Name    string `name:"name" usage:"student name" persistent:"true"`
-	Age     int64  `name:"age" usage:"student age" shorthand:"a"`
-	Gender  bool
-	Address []string `name:"addr"`
-}
-
-// define opts with default values
-var stu = student{
-	Name:    "zhangsanfeng",
-	Age:     20,
-	Address: []string{"addr1", "addr2"},
-}
-
-var cmd = *cobra.Command{}
-
-func init(){
-	cobrax.BindFlags(cmd,&stu)
-}
-```
+`Demo`: [example](cmd/examples/main.go)
 
 > Attention: 数值的类型的必须是 `int64`。 因为不想做兼容。
 
