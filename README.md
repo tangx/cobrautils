@@ -1,5 +1,9 @@
 # cobrax 使用反射获取 flag 配置
 
+this project is archived
+
+see https://github.com/go-jarvis/cobrautils
+
 ## Usage
 
 `Demo`: [example](cmd/examples/main.go)
